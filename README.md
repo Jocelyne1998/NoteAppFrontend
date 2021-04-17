@@ -1,5 +1,6 @@
 # NoteAppFrontend
 
+The application allows you to create digital notes, view the lists of active or complete notes, in addition to deleting the completed notes.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.9.
 
 ## Development server
