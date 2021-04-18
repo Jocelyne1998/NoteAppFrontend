@@ -1,14 +1,16 @@
+
+
 <mat-card class="card">
     <mat-form-field class="full-width">
         <input #newNote matInput placeholder="What needs to be done?" (keyup.enter)="addNote(newNote.value)">
         <button mat-button (click)="addNote(newNote.value)"></button>
     </mat-form-field>
     <mat-card-content>
-        <mat-radio-group aria-label="Select an option" *ngFor="let note of notes; let i = index">
-            <ul>
-                <mat-radio-button value="i">{{note.title}}</mat-radio-button>
-            </ul>
-        </mat-radio-group>
+        <mat-selection-list #noteList (selectionChange)="onGroupsChange(noteList.selectedOptions.selected)" >
+            <mat-list-option *ngFor="let note of notes; let i = index"  [value]="note">
+                {{note.title}}
+            </mat-list-option>
+          </mat-selection-list>
     </mat-card-content>
     <mat-card-actions *ngIf="notes.length > 0">
         <label>{{notes.length}} item left</label>

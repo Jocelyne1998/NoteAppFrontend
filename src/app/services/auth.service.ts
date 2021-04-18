@@ -18,6 +18,9 @@ export class AuthService {
   get_notes(): Observable<any> {
     return this.httpService.get('notes');
   }
-    
+  
+  update_note(postData: any): Observable<any> {
+    return this.httpService.post('notes/update', postData);
+  }
 
 }

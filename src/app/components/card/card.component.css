@@ -11,11 +11,15 @@
 }
 
 .full-width {
-    width: 90%;
+    width: 100%;
     border: none;
 }
 
 ul {
     list-style-type: none;
     padding-left: 0;
+}
+
+mat-radio-button {
+    text-decoration:line-through;
 }
