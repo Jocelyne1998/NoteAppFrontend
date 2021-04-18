@@ -14,8 +14,9 @@
     </mat-card-content>
     <mat-card-actions *ngIf="notes.length > 0">
         <label>{{notes.length}} item left</label>
-        <button mat-button>All</button>
-        <button mat-button>Active</button>
-        <button mat-button>Completed</button>
+        <button mat-button (click)="getFullNotes()">All</button>
+        <button mat-button (click)="getNoteByState('1')">Active</button>
+        <button mat-button (click)="getNoteByState('0')">Completed</button>
+        <button mat-button (click)="deleteCompletedNote()"> Clear Completed</button>
     </mat-card-actions>
 </mat-card>

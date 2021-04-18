@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
+import { titleNote } from 'src/app/models/titleNote.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class AuthService {
     private httpService: HttpService,
   ) { }
 
-  create_note(postData: any): Observable<any> {
+  create_note(postData: titleNote): Observable<any> {
     return this.httpService.post('notes', postData);
   }
 
@@ -19,8 +21,16 @@ export class AuthService {
     return this.httpService.get('notes');
   }
   
-  update_note(postData: any): Observable<any> {
-    return this.httpService.post('notes/update', postData);
+  get_note(status: String): Observable<any> {
+    return this.httpService.get('notes/'+status);
+  }
+  
+  update_note(tittle: titleNote): Observable<any> {
+    return this.httpService.post('notes/update', tittle);
+  }
+
+  delete_notes(): Observable<any> {
+    return this.httpService.get('notes/delete');
   }
 
 }
