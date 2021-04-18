@@ -1,18 +1,18 @@
 <mat-accordion>
-    <mat-expansion-panel hideToggle>
-    </mat-expansion-panel>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <input type="text">
-      </mat-expansion-panel-header>
+  <mat-expansion-panel hideToggle>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <input #newNote (keyup.enter)="addNote(newNote.value)" (blur)="addNote(newNote.value); newNote.value='' ">
+    </mat-expansion-panel-header>
+    <div>
       <label>Item left</label>
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1">Option 1</mat-radio-button>
-        <mat-radio-button value="2">Option 2</mat-radio-button>
+      <mat-radio-group aria-label="Select an option" *ngFor="let note of notes; let i = index">
+        <mat-radio-button value="i">{{note.title}}</mat-radio-button>
       </mat-radio-group>
       <button mat-button>All</button>
       <button mat-button>Active</button>
       <button mat-button>Completed</button>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
