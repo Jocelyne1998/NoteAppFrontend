@@ -16,6 +16,8 @@ export class CardComponent implements OnInit {
   notes: note[] = [];
   noteList: note[] = [];
   opcionSeleccionado: string = '';
+  clearButton: boolean = false;
+  hiddenButton: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -24,41 +26,40 @@ export class CardComponent implements OnInit {
 
 
   ngOnInit() {
-    if(this.storageService.get(AuthDataConstants.AUTH_SERVICES) == '1'){
+    if (this.storageService.get(AuthDataConstants.AUTH_SERVICES) == '1') {
       this.getFullNotes();
     } else {
       this.notes = this.storageService.getStorage(AuthDataConstants.AUTH_DATA);
     }
   }
 
-  onGroupsChange(options: MatListOption[]) {
-    // map these MatListOptions to their values
-    this.noteList = options.map(o => o.value);
-    const titleNote: titleNote = {
-      title: this.noteList[this.noteList.length - 1].title
-    }
-    this.authService.update_note(titleNote).subscribe();
+  settitleNote(text: string) {
+    const titleNote: titleNote = { title: text }
+    return titleNote
   }
 
   addNote(newNote: string) {
     this.storageService.set(AuthDataConstants.AUTH_SERVICES, '1');
     if (newNote) {
-      const titleNote: titleNote = { title: newNote }
+      const titleNote = this.settitleNote(newNote);
       this.authService.create_note(titleNote).subscribe(
-        (res: boolean) => {
-          if(res) { this.getFullNotes(); }
-        }
+        (res: boolean) => { return res; }
       );
     }
   }
 
-  getFullNotes(){
+  getFullNotes() {
     this.storageService.set(AuthDataConstants.AUTH_SERVICES, '1');
     this.authService.get_notes().subscribe(
       (note: note[]) => {
         this.notes = note;
+        this.hiddenButton = this.buttonStateSwitch(this.notes);
       }
     )
+  }
+
+  buttonStateSwitch(note: note[]): boolean {
+    return note.length > 0 ? true : false;
   }
 
   getNoteByState(status: String) {
@@ -74,9 +75,22 @@ export class CardComponent implements OnInit {
     this.storageService.set(AuthDataConstants.AUTH_SERVICES, '1');
     this.authService.delete_notes().subscribe(
       (res: boolean) => {
-        if(res) { this.getFullNotes(); }
+        return res;
       }
     )
+  }
+
+  updateNote(options: MatListOption[]) {
+    this.noteList = options.map(o => o.value);
+    let note = this.noteList[this.noteList.length - 1]
+    note.status = this.noteStateSwitch(note.status);
+    this.authService.update_note(note).subscribe(
+      (res: boolean) => { return res; }
+    );
+  }
+
+  noteStateSwitch(status: String): String {
+    return status === '1' ? '0' : '1';
   }
 
 }

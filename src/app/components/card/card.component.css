@@ -1,5 +1,5 @@
 .card {
-    max-width: 400px;
+    max-width: 600px;
 }
 
 .mat-form-field + .mat-form-field {
@@ -20,6 +20,11 @@ ul {
     padding-left: 0;
 }
 
-mat-radio-button {
+.cheked {
     text-decoration:line-through;
+    color: darkgray;
+}
+
+.clear {
+    font-size: small;
 }

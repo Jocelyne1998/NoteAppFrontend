@@ -1,22 +1,26 @@
-
-
 <mat-card class="card">
     <mat-form-field class="full-width">
         <input #newNote matInput placeholder="What needs to be done?" (keyup.enter)="addNote(newNote.value)">
         <button mat-button (click)="addNote(newNote.value)"></button>
     </mat-form-field>
     <mat-card-content>
-        <mat-selection-list #noteList (selectionChange)="onGroupsChange(noteList.selectedOptions.selected)" >
-            <mat-list-option *ngFor="let note of notes; let i = index"  [value]="note">
-                {{note.title}}
+        <mat-selection-list #noteList (selectionChange)="updateNote(noteList.selectedOptions.selected)">
+            <mat-list-option *ngFor="let note of notes; let i = index" [value]="note">
+                <div *ngIf="note.status == '0'; else elseBlock" class="cheked">
+                    {{note.title}}
+                </div>
+                <ng-template #elseBlock>
+                    {{note.title}}
+                </ng-template>
             </mat-list-option>
-          </mat-selection-list>
+        </mat-selection-list>
     </mat-card-content>
-    <mat-card-actions *ngIf="notes.length > 0">
+    <mat-card-actions *ngIf="hiddenButton">
         <label>{{notes.length}} item left</label>
         <button mat-button (click)="getFullNotes()">All</button>
         <button mat-button (click)="getNoteByState('1')">Active</button>
         <button mat-button (click)="getNoteByState('0')">Completed</button>
-        <button mat-button (click)="deleteCompletedNote()"> Clear Completed</button>
+        <button mat-button [disabled]="clearButton" class="clear" (click)="deleteCompletedNote()"> Clear
+            Completed</button>
     </mat-card-actions>
 </mat-card>
